@@ -14,4 +14,6 @@ public interface NewsService {
     public News getNews(long id) throws ResourceNotFoundException;
 
     public void deleteNews(long id) throws ResourceNotFoundException;
+
+
 }

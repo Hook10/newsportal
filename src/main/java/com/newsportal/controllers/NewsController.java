@@ -2,40 +2,38 @@ package com.newsportal.controllers;
 
 import com.newsportal.entity.News;
 import com.newsportal.exception.ResourceNotFoundException;
-import com.newsportal.repository.NewsRepository;
 import com.newsportal.service.NewsService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
+
 import java.util.List;
 
 @Controller
 @RequestMapping("/news")
 public class NewsController {
-    private static final Logger LOG = LoggerFactory.getLogger(NewsController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(NewsController.class);
 
     @Autowired
     private NewsService newsService;
 
     @GetMapping("/list")
-    public String listCustomers(Model theModel) {
+    public String listNews(Model theModel) {
         List<News> theNews = newsService.getNews();
         theModel.addAttribute("news", theNews);
-        return "list-news";
+        return "/list-news";
     }
 
     @GetMapping("/showForm")
     public String showFormForAdd(Model model) {
-        LOG.debug("inside show news form handler method");
+        LOGGER.debug("inside show news form handler method");
         News news = new News();
         model.addAttribute("news", news);
-        return "news-form";
+        return "/news-form";
     }
 
     @PostMapping("/saveNews")
@@ -49,7 +47,7 @@ public class NewsController {
                                     Model model) throws ResourceNotFoundException {
         News news = newsService.getNews(theId);
         model.addAttribute("news", news);
-        return "news-form";
+        return "/news-form";
     }
 
     @GetMapping("/delete")

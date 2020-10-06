@@ -1,6 +1,7 @@
 package com.newsportal.entity;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 @Table(name="news_admin")
@@ -28,15 +29,7 @@ public class NewsAdmin {
         this.password = password;
     }
 
-    @Override
-    public String toString() {
-        return "NewsAdmin{" +
-                "id=" + id +
-                ", login='" + login + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                '}';
-    }
+
 
     public int getId() {
         return id;
@@ -68,5 +61,31 @@ public class NewsAdmin {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    @Override
+    public String toString() {
+        return "NewsAdmin{" +
+                "id=" + id +
+                ", login='" + login + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        NewsAdmin newsAdmin = (NewsAdmin) o;
+        return id == newsAdmin.id &&
+                login.equals(newsAdmin.login) &&
+                email.equals(newsAdmin.email) &&
+                password.equals(newsAdmin.password);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, login, email, password);
     }
 }

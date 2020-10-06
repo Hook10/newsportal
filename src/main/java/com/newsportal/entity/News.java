@@ -1,6 +1,7 @@
 package com.newsportal.entity;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 @Table(name = "news")
@@ -55,5 +56,20 @@ public class News {
                 ", category='" + category + '\'' +
                 ", name='" + name + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        News news = (News) o;
+        return id == news.id &&
+                category.equals(news.category) &&
+                name.equals(news.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, category, name);
     }
 }
