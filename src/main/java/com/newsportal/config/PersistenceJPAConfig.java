@@ -24,7 +24,7 @@ import java.util.Properties;
 @EnableTransactionManagement
 @PropertySource({"classpath:database.properties"})
 @ComponentScan({"com.newsportal"})
-@EnableJpaRepositories(basePackages = "com.newsportal.repository")
+@EnableJpaRepositories(basePackages = "com.newsportal")
 public class PersistenceJPAConfig {
 
     @Autowired
@@ -38,7 +38,9 @@ public class PersistenceJPAConfig {
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
         final LocalContainerEntityManagerFactoryBean entityManagerFactoryBean = new LocalContainerEntityManagerFactoryBean();
         entityManagerFactoryBean.setDataSource(dataSource());
-        entityManagerFactoryBean.setPackagesToScan("com.newsportal.entity");
+        entityManagerFactoryBean.setPackagesToScan(new String[] {
+                "com.newsportal.entity"
+        });
 
         final HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
         entityManagerFactoryBean.setJpaVendorAdapter(vendorAdapter);
@@ -53,19 +55,21 @@ public class PersistenceJPAConfig {
         hibernateProperties.setProperty("hibernate.dialect", env.getProperty("hibernate.dialect"));
         hibernateProperties.setProperty("hibernate.cache.use_second_level_cache", env.getProperty("hibernate.cache.use_second_level_cache"));
         hibernateProperties.setProperty("hibernate.cache.use_query_cache", env.getProperty("hibernate.cache.use_query_cache"));
-        // hibernateProperties.setProperty("hibernate.globally_quoted_identifiers", "true");
+//         hibernateProperties.setProperty("hibernate.globally_quoted_identifiers", "true");
         return hibernateProperties;
     }
 
     @Bean
     public DataSource dataSource() {
         final DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName(Objects.requireNonNull(env.getProperty("jdbc.driverClassName")));
+        dataSource.setDriverClassName(env.getProperty("jdbc.driverClassName"));
         dataSource.setUrl(env.getProperty("jdbc.url"));
         dataSource.setUsername(env.getProperty("jdbc.user"));
         dataSource.setPassword(env.getProperty("jdbc.pass"));
         return dataSource;
     }
+
+
 
     @Bean
     public PlatformTransactionManager transactionManager(final EntityManagerFactory emf) {

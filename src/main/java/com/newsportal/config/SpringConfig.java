@@ -14,9 +14,10 @@ import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 
 @Configuration
-@ComponentScan("com.newsportal")
 @EnableWebMvc
+@ComponentScan("com.newsportal")
 public class SpringConfig implements WebMvcConfigurer {
+
     private final ApplicationContext applicationContext;
 
     @Autowired
@@ -55,3 +56,4 @@ public class SpringConfig implements WebMvcConfigurer {
                 .addResourceLocations("/resources/");
     }
 }
+
