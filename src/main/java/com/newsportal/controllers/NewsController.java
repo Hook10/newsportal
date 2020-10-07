@@ -25,7 +25,7 @@ public class NewsController {
     public String listNews(Model theModel) {
         List<News> theNews = newsService.getNews();
         theModel.addAttribute("news", theNews);
-        return "/list-news";
+        return "news/list-news";
     }
 
     @GetMapping("/showForm")
@@ -57,17 +57,6 @@ public class NewsController {
     }
 
 
-//    @GetMapping("/showForm")
-//    public String showNewsForm() {
-//        return "/add-news";
-//
-//    }
-//
-//    @GetMapping("/list")
-//    public String news(Model model){
-//        model.addAttribute("news", this.newsService.getNews());
-//        return "index";
-//    }
 //
 //    @PostMapping("/add")
 //    public String addNews(News news, BindingResult result, Model Model){

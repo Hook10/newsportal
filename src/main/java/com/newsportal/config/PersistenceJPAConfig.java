@@ -38,9 +38,7 @@ public class PersistenceJPAConfig {
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
         final LocalContainerEntityManagerFactoryBean entityManagerFactoryBean = new LocalContainerEntityManagerFactoryBean();
         entityManagerFactoryBean.setDataSource(dataSource());
-        entityManagerFactoryBean.setPackagesToScan(new String[] {
-                "com.newsportal.entity"
-        });
+        entityManagerFactoryBean.setPackagesToScan("com.newsportal.entity");
 
         final HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
         entityManagerFactoryBean.setJpaVendorAdapter(vendorAdapter);
@@ -48,6 +46,16 @@ public class PersistenceJPAConfig {
 
         return entityManagerFactoryBean;
     }
+//
+//    final Properties additionalProperties() {
+//        final Properties hibernateProperties = new Properties();
+//        hibernateProperties.setProperty("hibernate.hbm2ddl.auto", env.getProperty("hibernate.hbm2ddl.auto"));
+//        hibernateProperties.setProperty("hibernate.dialect", env.getProperty("hibernate.dialect"));
+//        hibernateProperties.setProperty("hibernate.cache.use_second_level_cache", env.getProperty("hibernate.cache.use_second_level_cache"));
+//        hibernateProperties.setProperty("hibernate.cache.use_query_cache", env.getProperty("hibernate.cache.use_query_cache"));
+////         hibernateProperties.setProperty("hibernate.globally_quoted_identifiers", "true");
+//        return hibernateProperties;
+//    }
 
     final Properties additionalProperties() {
         final Properties hibernateProperties = new Properties();
