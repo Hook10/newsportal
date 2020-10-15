@@ -17,5 +17,6 @@ public class NewsPortalMvcDispatcherServletInitializer extends AbstractAnnotatio
     protected String[] getServletMappings() {
 
         return new String[]{"/"};
+
     }
 }

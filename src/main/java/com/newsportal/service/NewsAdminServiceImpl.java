@@ -3,7 +3,6 @@ package com.newsportal.service;
 import com.newsportal.entity.NewsAdmin;
 import com.newsportal.exception.ResourceNotFoundException;
 import com.newsportal.repository.NewsAdminRepository;
-import com.newsportal.repository.NewsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

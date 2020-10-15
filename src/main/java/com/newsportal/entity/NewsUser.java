@@ -1,6 +1,7 @@
 package com.newsportal.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.Objects;
 
 @Entity
@@ -11,9 +12,11 @@ public class NewsUser {
     @Column(name = "id")
     private int id;
 
+    @NotBlank(message = "email is mandatory")
     @Column(name = "email")
     private String email;
 
+    @NotBlank(message = "password is madnatory")
     @Column(name="password")
     private String password;
 

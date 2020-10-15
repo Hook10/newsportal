@@ -12,44 +12,45 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin(origins = "http://localhost:4200")
 @Controller
-@RequestMapping("/news-user")
+@RequestMapping("/news-user/")
 public class NewsUserController {
     private static final Logger LOGGER = LoggerFactory.getLogger(NewsUserController.class);
 
     @Autowired
     private NewsUserService newsUserService;
 
-    @GetMapping("/user-list")
+    @GetMapping("user-list")
     public String listUsers(Model theModel) {
         List<NewsUser> theNewsUser = newsUserService.getNewsUser();
         theModel.addAttribute("user", theNewsUser);
-        return "/all-users";
+        return "all-users";
     }
 
-    @GetMapping("/showUserForm")
+    @GetMapping("showUserForm")
     public String showUserFormForAdd(Model model) {
         LOGGER.debug("inside show user form handler method");
         NewsUser newsUser = new NewsUser();
         model.addAttribute("user", newsUser);
-        return "/user-form";
+        return "user-form";
     }
 
-    @PostMapping("/saveNewsUser")
+    @PostMapping("saveNewsUser")
     public String saveNewsUser(@ModelAttribute("user") NewsUser newsUser) {
         newsUserService.saveNewsUser(newsUser);
         return "redirect:/news-user/user-list";
     }
 
-    @GetMapping("/updateUserForm")
+    @GetMapping("updateUserForm")
     public String showUserFormForUpdate(@RequestParam("userId") long theId,
                                         Model model) throws ResourceNotFoundException {
         NewsUser newsUser = newsUserService.getNewsUser(theId);
         model.addAttribute("user", newsUser);
-        return "/user-form";
+        return "user-form";
     }
 
-    @GetMapping("/delete")
+    @GetMapping("delete")
     public String deleteNewsUser(@RequestParam("userId") long id) throws ResourceNotFoundException {
         newsUserService.deleteNewsUser(id);
         return "redirect:/news-user/user-list";

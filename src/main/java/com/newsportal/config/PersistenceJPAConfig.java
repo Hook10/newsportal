@@ -46,16 +46,7 @@ public class PersistenceJPAConfig {
 
         return entityManagerFactoryBean;
     }
-//
-//    final Properties additionalProperties() {
-//        final Properties hibernateProperties = new Properties();
-//        hibernateProperties.setProperty("hibernate.hbm2ddl.auto", env.getProperty("hibernate.hbm2ddl.auto"));
-//        hibernateProperties.setProperty("hibernate.dialect", env.getProperty("hibernate.dialect"));
-//        hibernateProperties.setProperty("hibernate.cache.use_second_level_cache", env.getProperty("hibernate.cache.use_second_level_cache"));
-//        hibernateProperties.setProperty("hibernate.cache.use_query_cache", env.getProperty("hibernate.cache.use_query_cache"));
-////         hibernateProperties.setProperty("hibernate.globally_quoted_identifiers", "true");
-//        return hibernateProperties;
-//    }
+
 
     final Properties additionalProperties() {
         final Properties hibernateProperties = new Properties();
@@ -68,9 +59,10 @@ public class PersistenceJPAConfig {
     }
 
     @Bean
+
     public DataSource dataSource() {
         final DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName(env.getProperty("jdbc.driverClassName"));
+        dataSource.setDriverClassName(Objects.requireNonNull(env.getProperty("jdbc.driverClassName")));
         dataSource.setUrl(env.getProperty("jdbc.url"));
         dataSource.setUsername(env.getProperty("jdbc.user"));
         dataSource.setPassword(env.getProperty("jdbc.pass"));
