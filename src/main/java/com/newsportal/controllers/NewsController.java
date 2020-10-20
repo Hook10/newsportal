@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,6 +31,7 @@ public class NewsController {
     }
 
     // create news rest api
+//    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/news")
     public News createNews(@RequestBody News news) {
         return newsRepository.save(news);
@@ -45,6 +47,7 @@ public class NewsController {
     }
 
     //  update news rest api
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/news/{id}")
     public ResponseEntity<News> updateNews(@PathVariable Long id,@RequestBody News newsToUpdate) throws ResourceNotFoundException {
         News news = newsRepository.findById(id)
@@ -59,6 +62,7 @@ public class NewsController {
     }
 
     //delete news rest api
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/news/{id}")
     public ResponseEntity< Map<String, Boolean>> deleteNews(@PathVariable Long id ) throws ResourceNotFoundException {
         News news = newsRepository.findById(id)

@@ -59,7 +59,6 @@ public class PersistenceJPAConfig {
     }
 
     @Bean
-
     public DataSource dataSource() {
         final DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName(Objects.requireNonNull(env.getProperty("jdbc.driverClassName")));
