@@ -47,7 +47,7 @@ public class NewsController {
     }
 
     //  update news rest api
-    @PreAuthorize("hasRole('ADMIN')")
+
     @PutMapping("/news/{id}")
     public ResponseEntity<News> updateNews(@PathVariable Long id,@RequestBody News newsToUpdate) throws ResourceNotFoundException {
         News news = newsRepository.findById(id)
@@ -62,7 +62,7 @@ public class NewsController {
     }
 
     //delete news rest api
-    @PreAuthorize("hasRole('ADMIN')")
+
     @DeleteMapping("/news/{id}")
     public ResponseEntity< Map<String, Boolean>> deleteNews(@PathVariable Long id ) throws ResourceNotFoundException {
         News news = newsRepository.findById(id)

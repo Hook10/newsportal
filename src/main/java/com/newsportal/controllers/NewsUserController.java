@@ -26,13 +26,11 @@ public class NewsUserController {
 
 
     //just test user with service
-
     @Autowired
     private UserService service;
 
 
     @PostMapping("/registeruser")
-    @CrossOrigin(origins = "http://localhost:4200")
     public NewsUser registerUser(@RequestBody NewsUser newsUser) throws Exception {
         String tempEmail = newsUser.getEmail();
         if (tempEmail != null && !"".equals(tempEmail)) {
@@ -45,7 +43,6 @@ public class NewsUserController {
     }
 
     @PostMapping("/login")
-    @CrossOrigin(origins = "http://localhost:4200")
     public Optional<NewsUser> loginUser(@RequestBody NewsUser user) throws Exception {
         String tempEmail = user.getEmail();
         String tempPassword = user.getPassword();
@@ -104,7 +101,7 @@ public class NewsUserController {
     }
 
     //delete user
-    @PreAuthorize("hasRole('ADMIN')")
+
     @DeleteMapping("/users/{id}")
     public ResponseEntity<Map<String, Boolean>> deleteNewsUser(@PathVariable Long id) throws ResourceNotFoundException {
         NewsUser user = newsUserRepository.findById(id)
