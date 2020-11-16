@@ -1,6 +1,5 @@
 package com.newsportal.controllers;
 
-
 import com.newsportal.entity.NewsUser;
 import com.newsportal.exception.ResourceNotFoundException;
 import com.newsportal.repository.NewsUserRepository;
@@ -9,10 +8,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.stereotype.Controller;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,6 +21,9 @@ import java.util.Optional;
 public class NewsUserController {
     private static final Logger LOGGER = LoggerFactory.getLogger(NewsUserController.class);
 
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     //just test user with service
     @Autowired
@@ -38,6 +38,9 @@ public class NewsUserController {
             if (newsUser1.isPresent()) {
                 throw new Exception("User with this email: " + tempEmail + " is already exist");
             }
+            String encryptedPassword = passwordEncoder.encode(newsUser.getPassword());
+            newsUser.setPassword(encryptedPassword);
+
         }
         return service.saveUser(newsUser);
     }
