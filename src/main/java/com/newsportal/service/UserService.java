@@ -5,7 +5,6 @@ import com.newsportal.repository.NewsUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
 
 @Service
 public class UserService {
@@ -17,11 +16,11 @@ public class UserService {
         return newsUserRepository.save(newsUser);
     }
 
-    public Optional<NewsUser> fetchUserByEmail(String email){
+    public NewsUser fetchUserByEmail(String email){
         return newsUserRepository.findByEmail(email);
     }
 
-    public Optional<NewsUser> fetchUserByEmailAndPassword(String email, String password){
+    public NewsUser fetchUserByEmailAndPassword(String email, String password){
         return newsUserRepository.findByEmailAndPassword(email, password);
     }
 

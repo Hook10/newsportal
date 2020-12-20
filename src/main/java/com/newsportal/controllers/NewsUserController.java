@@ -1,15 +1,19 @@
 package com.newsportal.controllers;
 
 import com.newsportal.entity.NewsUser;
+import com.newsportal.exception.EmailNotFoundException;
+import com.newsportal.exception.LoginException;
 import com.newsportal.exception.ResourceNotFoundException;
 import com.newsportal.repository.NewsUserRepository;
 import com.newsportal.service.UserService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
+import org.apache.commons.lang3.StringUtils;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,7 +23,6 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/v1/")
 public class NewsUserController {
-    private static final Logger LOGGER = LoggerFactory.getLogger(NewsUserController.class);
 
 
     @Autowired
@@ -33,9 +36,9 @@ public class NewsUserController {
     @PostMapping("/registeruser")
     public NewsUser registerUser(@RequestBody NewsUser newsUser) throws Exception {
         String tempEmail = newsUser.getEmail();
-        if (tempEmail != null && !"".equals(tempEmail)) {
-            Optional<NewsUser> newsUser1 = service.fetchUserByEmail(tempEmail);
-            if (newsUser1.isPresent()) {
+        if (tempEmail != null && StringUtils.isNotEmpty(tempEmail)) {
+            NewsUser newsUser1 = service.fetchUserByEmail(tempEmail);
+            if (newsUser1 != null) {
                 throw new Exception("User with this email: " + tempEmail + " is already exist");
             }
             String encryptedPassword = passwordEncoder.encode(newsUser.getPassword());
@@ -45,18 +48,37 @@ public class NewsUserController {
         return service.saveUser(newsUser);
     }
 
+
+//this method works well do not remove it
+//    @PostMapping("/login")
+//    public NewsUser loginUser(@RequestBody NewsUser user) throws LoginException {
+//        String tempEmail = user.getEmail();
+//        String tempPassword = user.getPassword();
+//        NewsUser newsUser =  newsUserRepository.findByEmail(tempEmail);
+//        boolean isMatches = passwordEncoder.matches(tempPassword, newsUser.getPassword());
+//
+//               if(isMatches){
+//                   return newsUser;
+//               } else throw new LoginException("Login exception. Bad credentials");
+//    }
+
     @PostMapping("/login")
-    public Optional<NewsUser> loginUser(@RequestBody NewsUser user) throws Exception {
+    public NewsUser loginUser(@RequestBody NewsUser user) throws LoginException, EmailNotFoundException {
         String tempEmail = user.getEmail();
         String tempPassword = user.getPassword();
-        Optional<NewsUser> newsUser = null;
-        if (tempEmail != null && tempPassword != null) {
-            newsUser = service.fetchUserByEmailAndPassword(tempEmail, tempPassword);
-        }
-        if(newsUser == null){
-            throw new Exception("bad credentials");
-        }
-        return newsUser;
+
+        NewsUser userFromDB = Optional.ofNullable(service.fetchUserByEmail(tempEmail))
+                .orElseThrow(() -> new EmailNotFoundException("email doesn't exist"));
+        return userPasswordValidation(tempPassword, userFromDB);
+    }
+
+
+    public NewsUser userPasswordValidation(String tempPassword, NewsUser userFromDB) throws LoginException {
+        boolean isMatches = passwordEncoder.matches(tempPassword, userFromDB.getPassword());
+
+        if (isMatches) {
+            return userFromDB;
+        } else throw new LoginException("Login exception. Bad credentials");
     }
 
     // Everything below this comment has been created before creating registration and login  methods

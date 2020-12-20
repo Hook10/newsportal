@@ -10,7 +10,9 @@ import java.util.Optional;
 public interface NewsUserRepository extends JpaRepository<NewsUser, Long> {
     Optional<NewsUser> findById(Long id);
 
-    Optional<NewsUser> findByEmail(String email);
+    public NewsUser findByEmail(String email);
 
-    Optional<NewsUser> findByEmailAndPassword(String email, String password);
+    public NewsUser findByEmailAndPassword(String email, String password);
+
+    public String findPasswordByEmail(String email);
 }

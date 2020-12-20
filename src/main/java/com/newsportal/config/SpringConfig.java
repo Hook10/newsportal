@@ -14,16 +14,16 @@ import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 
 @Configuration
 @EnableWebMvc
-@ComponentScan("com.newsportal.controllers")
+@ComponentScan("com.newsportal")
 public class SpringConfig implements WebMvcConfigurer {
 
     private final ApplicationContext applicationContext;
 
     @Autowired
     public SpringConfig(ApplicationContext applicationContext) {
+
         this.applicationContext = applicationContext;
     }
-
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
@@ -31,6 +31,7 @@ public class SpringConfig implements WebMvcConfigurer {
                 .allowedOrigins("http://localhost:4200")
                 .allowedMethods("*");
     }
+
 
 //    @Override
 //    public void addCorsMappings(CorsRegistry registry) {
@@ -60,8 +61,8 @@ public class SpringConfig implements WebMvcConfigurer {
     }
 
     @Bean
-    public PasswordEncoder encoder() {
-        return new BCryptPasswordEncoder(12);
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 
     @Override
@@ -75,8 +76,6 @@ public class SpringConfig implements WebMvcConfigurer {
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
 
         registry
-//                .addResourceHandler("/app/**")
-//                .addResourceLocations("/app/");
                 .addResourceHandler("/resources/**")
                 .addResourceLocations("/resources/");
     }
